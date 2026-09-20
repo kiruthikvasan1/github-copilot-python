@@ -28,15 +28,21 @@ def check_solution():
     solution = CURRENT.get('solution')
     if solution is None:
         return jsonify({'error': 'No game in progress'}), 400
-    incorrect = []
+
+    if not isinstance(board, list) or len(board) != sudoku_logic.SIZE:
+        return jsonify({'error': 'Invalid board'}), 400
+
+    # Treat every empty or mismatched cell as invalid so the UI can highlight the full set.
+    invalid = []
     for i in range(sudoku_logic.SIZE):
+        if not isinstance(board[i], list) or len(board[i]) != sudoku_logic.SIZE:
+            return jsonify({'error': 'Invalid board'}), 400
         for j in range(sudoku_logic.SIZE):
             value = board[i][j]
-            if value == sudoku_logic.EMPTY:
-                continue
-            if value != solution[i][j]:
-                incorrect.append([i, j])
-    return jsonify({'incorrect': incorrect})
+            if value == sudoku_logic.EMPTY or value != solution[i][j]:
+                invalid.append([i, j])
+
+    return jsonify({'incorrect': invalid, 'invalid': invalid})
 
 
 @app.route('/hint')
@@ -46,6 +52,7 @@ def hint_move():
     if puzzle is None or solution is None:
         return jsonify({'error': 'No game in progress'}), 400
 
+    # Any empty editable cell is a valid hint target; the flask endpoint only exposes one move.
     hint = sudoku_logic.find_hint_move(puzzle, solution)
     if hint is None:
         return jsonify({'message': 'No empty editable cells remain.'})

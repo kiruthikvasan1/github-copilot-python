@@ -82,6 +82,8 @@ def count_solutions(board, limit=2):
     board = deep_copy(board)
     solutions = 0
 
+    # Backtracking explores each valid candidate while stopping early once the
+    # configured solution limit is reached, which is the core uniqueness check.
     def backtrack():
         nonlocal solutions
         if solutions >= limit:
@@ -123,6 +125,7 @@ def remove_cells(board, clues):
     cells = [(row, col) for row in range(SIZE) for col in range(SIZE)]
     random.shuffle(cells)
 
+    # A clue can be removed only when the board still has exactly one valid completion.
     for row, col in cells:
         if filled <= clues:
             break

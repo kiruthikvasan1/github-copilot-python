@@ -78,13 +78,14 @@ body {
 
 h1 {
     margin-top: 30px;
+    margin-bottom: 18px;
     color: var(--text);
 }
 
 #sudoku-board {
-    display: inline-block;
+    display: block;
     width: min(90vw, 540px);
-    margin: 24px auto 0;
+    margin: 0 auto;
     border: 4px solid var(--board-border);
     background: var(--board-bg);
     box-shadow: 0 4px 16px var(--shadow);
@@ -172,13 +173,14 @@ h1 {
 }
 
 .controls {
-    margin: 20px auto;
+    margin: 20px auto 10px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
     gap: 8px;
     padding: 0 12px;
+    width: min(100%, 980px);
 }
 
 label,
@@ -233,11 +235,14 @@ button:active {
 }
 
 #message {
-    margin-left: 8px;
+    display: block;
+    margin: 0 auto 20px;
     min-height: 24px;
     font-size: 1rem;
     font-weight: 600;
     color: var(--info-text);
+    width: fit-content;
+    max-width: min(90vw, 540px);
 }
 
 #message[data-state='error'] {
@@ -354,11 +359,11 @@ button:active {
     .controls {
         align-items: stretch;
         gap: 10px;
+        padding: 0 12px;
     }
 
     .controls > * {
-        flex: 1 1 100%;
-        width: 100%;
+        flex: 1 1 auto;
     }
 
     label[for='difficulty-select'] {
@@ -367,14 +372,13 @@ button:active {
 
     .controls button,
     .controls select,
-    .controls #timer,
-    .controls #message {
-        width: 100%;
+    .controls #timer {
+        width: auto;
+        min-width: 0;
         margin: 0;
     }
 
-    .controls #timer,
-    .controls #message {
+    .controls #timer {
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -382,6 +386,7 @@ button:active {
 
     #message {
         min-height: 42px;
+        margin-bottom: 16px;
     }
 
     #sudoku-board {
