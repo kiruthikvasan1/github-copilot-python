@@ -2,17 +2,59 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Sudoku Game</title>
   <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
   <h1>Sudoku Game</h1>
-  <div id="sudoku-board"></div>
   <div class="controls">
+    <label for="difficulty-select">Difficulty</label>
+    <select id="difficulty-select" aria-label="Select difficulty">
+      <option value="easy">Easy</option>
+      <option value="medium" selected>Medium</option>
+      <option value="hard">Hard</option>
+    </select>
     <button id="new-game">New Game</button>
-    <button id="check-solution">Check Solution</button>
-    <span id="message"></span>
+    <button id="hint-button" type="button">Hint</button>
+    <button id="check-solution" type="button">Check</button>
+    <button id="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">Dark mode</button>
+    <span id="timer" class="timer-display" aria-live="polite">Time: 00:00</span>
+    <span id="message" role="status" aria-live="polite"></span>
   </div>
+  <div id="sudoku-board"></div>
+
+  <section id="leaderboard-section" aria-labelledby="leaderboard-heading" class="leaderboard-section">
+    <h2 id="leaderboard-heading">Top 10 Fastest Times</h2>
+    <p id="leaderboard-empty" class="leaderboard-empty">No completed games yet. Finish a puzzle to set the first record.</p>
+    <table id="leaderboard-table" class="leaderboard-table" aria-live="polite">
+      <thead>
+        <tr>
+          <th scope="col">Rank</th>
+          <th scope="col">Player</th>
+          <th scope="col">Time</th>
+          <th scope="col">Difficulty</th>
+          <th scope="col">Hints</th>
+        </tr>
+      </thead>
+      <tbody id="leaderboard-body"></tbody>
+    </table>
+  </section>
+
+  <div id="name-dialog" class="leaderboard-modal hidden" role="dialog" aria-modal="true" aria-labelledby="name-dialog-title">
+    <div class="leaderboard-dialog-content">
+      <h3 id="name-dialog-title">Save your score</h3>
+      <form id="leaderboard-form">
+        <label for="player-name">Player name</label>
+        <input id="player-name" name="player-name" type="text" maxlength="24" autocomplete="name" required>
+        <div class="leaderboard-dialog-actions">
+          <button type="submit">Save</button>
+          <button type="button" id="cancel-name" class="secondary-button">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script src="/static/main.js"></script>
 </body>
 </html>
